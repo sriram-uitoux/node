@@ -1,0 +1,105 @@
+// Path
+
+  const path = require('path');             //importing path module
+  var pathObj = path.parse(__filename);     // creating object for module
+
+  console.log(pathObj)                      // calling different memebers for the path object
+  console.log(pathObj.root)
+  console.log(pathObj.dir)
+  console.log(pathObj.base)
+  console.log(pathObj.ext)
+  console.log(pathObj.name)
+  
+// OS
+
+  const os = require('os');
+  console.log(os.freemem());
+  console.log(os.totalmem());
+  
+// File System
+
+  const fs = require('fs');
+
+  var readWithSync = fs.readdirSync('./');   //Sync. method
+  console.log(readWithSync);
+
+  fs.readdir('./', function(err, files){    // Async. method
+    if(err) console.log(err);
+    else console.log(files);
+  })
+  
+// EventEmitter
+
+  const EventEmitter = require('events');
+  var eventObj = new EventEmitter;
+
+  // Event listener
+  eventObj.addListener('data_found', function(eventArgs){
+    console.log('Found...!', eventArgs);
+  });
+  eventObj.addListener('data_not_found', function(eventArgs){
+    console.log('Not Found...!', eventArgs);
+  });
+
+  // Event Emitter
+  let a = 30;
+  if (a===10){eventObj.emit('data_found', {data: 10, url: 'https://www..com'});}
+  else {eventObj.emit('data_not_found', {data: a, url: 'https://www..com'});}
+  
+  //using extends
+  
+  app.js
+  
+    const Logger = require('./logger');
+    const logger = new Logger();
+
+    logger.addListener('LoggedData', (emitterArgs) => {
+      console.log('Called..', emitterArgs);
+    })
+
+    logger.log('Hello');
+  
+  looger.js
+  
+    const EventEmitter = require('events');
+
+    class Logger extends EventEmitter {
+      log(message) {
+        this.emit('LoggedData', {id: 1, message_value: message});
+      }
+    }
+
+    module.exports = Logger;
+    
+ // HTTP
+ 
+ 1)
+  const http = require('http');
+  const server = http.createServer();
+
+  server.addListener('connection', (socket) =>{
+    console.log("New connection...", socket);
+  });
+
+  server.listen(3000);
+  console.log('listening to port 3000');
+  
+ 2)
+  const http = require('http');
+  const server = http.createServer((req, res) => {
+    if (req.url === '/'){
+      res.write("Hello Sriram");
+      res.end();
+    }
+    if (req.url === '/api/themes'){
+      res.write(JSON.stringify(['Hello', 'SunDial', 'Green']));
+      res.end();
+    }
+  });
+
+
+  server.listen(3000);
+  console.log('listening to port 3000');
+
+  
+
